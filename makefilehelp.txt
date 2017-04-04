@@ -1,0 +1,2 @@
+TreeDr.o: TreeDr.cpp TreeType.h
+	g++ -Wall -std=c++14 -c -O0 -pedantic-errors TreeDr.cpp
