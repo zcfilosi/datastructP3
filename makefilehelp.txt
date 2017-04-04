@@ -1,2 +1,9 @@
 TreeDr.o: TreeDr.cpp TreeType.h
 	g++ -Wall -std=c++14 -c -O0 -pedantic-errors TreeDr.cpp
+
+
+	TreeType.o: TreeType.cpp TreeType.h QueType.h
+		g++ -Wall -std=c++14 -c -O0 -pedantic-errors TreeType.cpp
+
+	QueType.o: QueType.cpp QueType.h
+		g++ -Wall -std=c++14 -c -O0 -pedantic-errors QueType.cpp

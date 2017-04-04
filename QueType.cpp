@@ -40,7 +40,7 @@ QueType::~QueType()
 
 
 bool QueType::IsFull() const
-// Returns true if there is no room for another ItemType 
+// Returns true if there is no room for another ItemType
 //  on the free store; false otherwise.
 {
   NodeType* location;
@@ -68,7 +68,7 @@ void QueType::Enqueue(ItemType newItem)
 // Adds newItem to the rear of the queue.
 // Pre:  Queue has been initialized.
 // Post: If (queue is not full) newItem is at the rear of the queue;
-//       otherwise a FullQueue exception is thrown.  
+//       otherwise a FullQueue exception is thrown.
 
 {
   if (IsFull())
@@ -92,8 +92,8 @@ void QueType::Enqueue(ItemType newItem)
 void QueType::Dequeue(ItemType& item)
 // Removes front item from the queue and returns it in item.
 // Pre:  Queue has been initialized and is not empty.
-// Post: If (queue is not empty) the front of the queue has been 
-//       removed and a copy returned in item; 
+// Post: If (queue is not empty) the front of the queue has been
+//       removed and a copy returned in item;
 //       othersiwe a EmptyQueue exception has been thrown.
 {
   if (IsEmpty())
@@ -116,7 +116,7 @@ QueType::QueType
 {
   NodeType* ptr1;
   NodeType* ptr2;
-  
+
   if (anotherQue.front == NULL)
     front = NULL;
   else
@@ -134,5 +134,5 @@ QueType::QueType
     }
     ptr2->next = NULL;
     rear = ptr2;
-  }    
+  }
 }
