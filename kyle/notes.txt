@@ -1,0 +1,11 @@
+1. Enqueue root, Enqueue children, enqueue children's children.
+2. Dequeue each, do separate line for numbers and a separate line for slashes.
+
+		   15
+	                /      \
+	              6        20
+	            /   \      /   \
+	           4    10 16
+*Spacing will depend on the height of the tree.
+
+The successor is the smallest value in its right subtree.
