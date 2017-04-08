@@ -1,0 +1,20 @@
+
+template <class ItemType>
+int MakeTree(TreeType<ItemType>& newTree, int first,int last, ItemType sortedArray[]);
+
+
+
+template <class ItemType>
+int MakeTree(TreeType<ItemType>& newTree, int first,int last, ItemType sortedArray[]){
+    if(first>last){
+        return 0;
+    }
+int middle = (first+last)/2;
+cout<<"Inserting item: "<<sortedArray[middle]<<endl;
+newTree.PutItem(sortedArray[middle]);
+//(1,2,3,4,5,6,7.8)
+MakeTree(newTree, first, middle-1, sortedArray);
+MakeTree(newTree,middle+1,last,sortedArray);
+return 1;
+
+}
