@@ -20,6 +20,8 @@ void Retrieve(TreeNode<ItemType>* tree, ItemType& item, bool& found);
 template<class ItemType>
 void Insert(TreeNode<ItemType>*& tree, ItemType item);
 template<class ItemType>
+void Mirror(TreeNode<ItemType>*& mirror, const TreeNode<ItemType>* originalTree);
+template<class ItemType>
 void DeleteNode(TreeNode<ItemType>*& tree);
 template<class ItemType>
 void Delete(TreeNode<ItemType>*& tree, ItemType item);
@@ -33,6 +35,8 @@ template<class ItemType>
 void GetPredecessor(TreeNode<ItemType>* tree, ItemType& data);
 template<class ItemType>
 TreeNode<ItemType> * PtrToSuccessor(TreeNode<ItemType>*& tree);
+
+string nodespace(int lev, int ht);
 
 // Function prototypes for auxiliary functions.
 template<class ItemType>
@@ -79,7 +83,6 @@ int TreeType<ItemType>::GetLength() const
   return CountNodes(root);
 }
 
-//*
 template <class ItemType>
 int CountNodes(TreeNode<ItemType>* tree)
 // Post: returns the number of nodes in the tree.
@@ -127,7 +130,6 @@ void TreeType<ItemType>::PutItem(ItemType item)
   Insert(root, item);
 }
 
-//*
 template <class ItemType>
 void Insert(TreeNode<ItemType>*& tree, ItemType item)
 // Inserts item into tree.
@@ -158,7 +160,6 @@ void TreeType<ItemType>::DeleteItem(ItemType item)
 		cout << item << "is not in tree\n";
 }
 
-//*
 template <class ItemType>
 void Delete(TreeNode<ItemType>*& tree, ItemType item)
 // Deletes item from tree.
@@ -172,7 +173,6 @@ void Delete(TreeNode<ItemType>*& tree, ItemType item)
     DeleteNode(tree);           // Node found; call DeleteNode.
 }
 
-//*
 template <class ItemType>
 void DeleteNode(TreeNode<ItemType>*& tree)
 // Deletes the node pointed to by tree.
@@ -207,7 +207,6 @@ void DeleteNode(TreeNode<ItemType>*& tree)
   }
 }
 
-//*
 template <class ItemType>
 void GetPredecessor(TreeNode<ItemType>* tree, ItemType& data)
 // Sets data to the info member of the right-most node in tree.
@@ -217,7 +216,6 @@ void GetPredecessor(TreeNode<ItemType>* tree, ItemType& data)
   data = tree->info;
 }
 
-//*
 template <class ItemType>
 void PrintTree(TreeNode<ItemType>* tree)
 // Prints info member of items in tree in sorted order on screen.
@@ -238,11 +236,6 @@ void TreeType<ItemType>::Print() const
 }
 
 template <class ItemType>
-void TreeType<ItemType>::Print(std::ofstream& os) const {
-  
-}
-
-template <class ItemType>
 TreeType<ItemType>::TreeType()
 {
   root = NULL;
@@ -255,7 +248,6 @@ TreeType<ItemType>::~TreeType()
   Destroy(root);
 }
 
-//*
 template <class ItemType>
 void Destroy(TreeNode<ItemType>*& tree)
 // Post: tree is empty; nodes have been deallocated.
@@ -298,7 +290,6 @@ void TreeType<ItemType>::operator=
 
 }
 
-//*
 template <class ItemType>
 void CopyTree(TreeNode<ItemType>*& copy,
      const TreeNode<ItemType>* originalTree)
@@ -335,7 +326,6 @@ void TreeType<ItemType>::ResetTree(OrderType order)
   }
 }
 
-//*
 template <class ItemType>
 void PreOrder(TreeNode<ItemType>* tree,
      QueType<ItemType>& preQue)
@@ -349,7 +339,6 @@ void PreOrder(TreeNode<ItemType>* tree,
   }
 }
 
-//*
 template <class ItemType>
 void InOrder(TreeNode<ItemType>* tree,
      QueType<ItemType>& inQue)
@@ -363,7 +352,6 @@ void InOrder(TreeNode<ItemType>* tree,
   }
 }
 
-//*
 template <class ItemType>
 void PostOrder(TreeNode<ItemType>* tree,
      QueType<ItemType>& postQue)
@@ -404,7 +392,7 @@ ItemType TreeType<ItemType>::GetNextItem(OrderType order, bool& finished)
   return item;
 }
 
-// private helper, possible seg fault
+// private helper
 template <class ItemType>
 TreeNode<ItemType> * PtrToSuccessor(TreeNode<ItemType>*& tree) {
   // The successor is the smallest value in a (right sub) tree
@@ -444,9 +432,6 @@ void TreeType<ItemType>::InOrderPrint() {
     item = GetNextItem(IN_ORDER, fin);
     cout << item << " ";
   }
-  /*TreeNode<ItemType> *& sucr = root;
-  sucr = PtrToSuccessor(sucr->right);
-  cout << "Root's successor: " << sucr->info << endl;*/
 }
 
 template <class ItemType>
@@ -471,31 +456,65 @@ void TreeType<ItemType>::LevelOrderPrint() {
       trimming = false;      
     if (!trimming) {    
       nodes.insert(nodes.begin(), temparr[i]);
-    }                          
-    i--;    
-  }
-  // Testing the indices
-  for (unsigned int i = 0; i < nodes.size(); i++) {
-    if (nodes.at(i) != NULL)
-      cout << nodes.at(i)->info << " ";
-    else
-      cout << "* ";
-  }
-  cout << endl;
-  // Doin it
-  int ht = -1;
-  for (unsigned int i = 0; i < nodes.size(); i++) {
-    if ((i & (i + 1)) == 0) {  //new line for each level
-      cout << endl;
-      // handle the slashes here
-      if(
-      ht++;
-      cout << "Height " << to_string(ht) << ":\t";
     }
-    if (nodes.at(i) != NULL)
-      cout << nodes.at(i)->info << " ";
+    i--;
+  }
+  // Printing
+  int lev = -1;
+  vector<char> slashes;
+  for (unsigned int i = 0; i < nodes.size(); i++) {
+    if ((i & (i + 1)) == 0) {  // determining new level or not
+      cout << endl;
+      /*if (i != 0) {
+        for (unsigned int i = 0; i < slashes.size(); i++) {
+          cout << slashes.at(i);
+        }
+        cout << endl;
+        slashes.clear();
+      }*/
+      lev++;
+      //cout << "Level " << to_string(lev) << ":\t";
+    }
+    if (nodes.at(i) != NULL) {   // printing the nodes
+      cout << nodespace(lev, (int) log2(nodes.size() + 1)) << nodes.at(i)->info << " ";
+    }
     else
-      cout << "* ";
+      cout << "  ";
+    // slashes?
   }
   cout << endl << endl;
+}
+
+//template <class ItemType>
+string nodespace(int lev, int ht) {
+  string spaces = "";
+  for (int i = ht; i > lev; i--) {     // gap proportions
+    for (int i = 0; i < ht - 1; i++) { // padding
+      spaces += " ";
+    }
+  }
+  return spaces;
+}
+
+template <class ItemType>
+TreeType<ItemType> TreeType<ItemType>::MirrorImage() {
+  TreeType<ItemType> tree;
+  Mirror(tree.root, root);
+  return tree;
+}
+
+template <class ItemType>
+void Mirror(TreeNode<ItemType>*& mirror, const TreeNode<ItemType>* originalTree)
+// Post: Mirror is the root of a tree that is a mirror
+//       of originalTree.
+{
+  if (originalTree == NULL)
+    mirror = NULL;
+  else
+  {
+    mirror = new TreeNode<ItemType>;
+    mirror->info = originalTree->info;
+    Mirror(mirror->left, originalTree->right);
+    Mirror(mirror->right, originalTree->left);
+  }
 }

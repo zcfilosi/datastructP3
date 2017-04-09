@@ -1,4 +1,4 @@
-PrintTree
+Test
 Tree is empty.
 P is inserted
 F is inserted

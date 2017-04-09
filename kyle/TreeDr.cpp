@@ -4,11 +4,15 @@
 #include <string>
 #include <cctype>
 #include <cstring>
+#include <sstream>
 
 #include "TreeType.cpp"
 #include "QueType.cpp"
 
 using namespace std;
+
+template <class ItemType>
+TreeType<ItemType> MakeTree(ItemType arr[]);
 
 int main()
 {
@@ -19,6 +23,7 @@ int main()
   string outputLabel;
   string command;        // operation to be executed
 
+  /*
   // My tests:
   TreeType<int> tree;
   tree.PutItem(15);
@@ -28,15 +33,23 @@ int main()
   tree.PutItem(20);
   tree.PutItem(16);
   tree.PutItem(17);
-  //tree.DeleteItem(4);
+  tree.DeleteItem(4);
   cout << "Tree Length: " << tree.GetLength() << endl;
   tree.InOrderPrint();
   cout << endl << "4's Ancestors: ";
   tree.Ancestors(4);
-  cout << "Level Order Print:" << endl;
+  cout << "Level Order Print:" << endl << endl;
+  tree.InOrderPrint();
   tree.LevelOrderPrint();
+
+  TreeType<int> treet = tree.MirrorImage();
+  treet.InOrderPrint();
+  treet.LevelOrderPrint();
   
-  /*
+  int ar[] = {1, 2, 3, 4, 5, 6, 7};
+  TreeType<int> mtree = MakeTree(ar);
+
+  */
   char item;
   string orderItem;
   TreeType<int> tree;
@@ -96,7 +109,7 @@ int main()
   
     else if (command == "PrintTree")
     {
-      tree.Print(outFile);
+      tree.Print();
       outFile << endl;
     }  
     else if (command == "ResetTree")
@@ -131,7 +144,29 @@ int main()
     {
       tree.MakeEmpty();
       outFile << "Tree has been made empty." << endl;
-    }  
+    }
+    else if (command == "MakeTree") {
+      string line, phr;
+      vector<char> vec;
+      int len = 0, temp = 0;
+      getline(inFile, line);
+      stringstream ss(line);
+      while (getline(ss, phr, ' ')) { // to get the length
+        sscanf(phr.c_str(), "%d", &temp);
+        item = (char) temp;
+        vec.push_back(item);
+        len++;
+      }
+      int * arr = new int[len];
+      for (unsigned int i = 0; i < vec.size(); i++) {
+        arr[i] = vec.at(i);
+        cout << arr[i] << endl;
+      }
+      // MakeTree call
+    }
+    else if (command == "LevelOrderPrint") {
+    
+    }
 	else cout << " Command not recognized." << endl;
     numCommands++;
     cout <<  " Command is completed."  << endl;
@@ -141,6 +176,17 @@ int main()
   cout << "Testing completed."  << endl;
   inFile.close();
   outFile.close();
-  */
+  
   return 0;
+}
+
+template <class ItemType>
+TreeType<ItemType> MakeTree(ItemType arr[]) {
+  TreeType<ItemType> tree;
+  int len = 0;
+  while (arr[len] != 0) {
+    len++;
+  }
+  cout << len << endl;
+  return tree;
 }

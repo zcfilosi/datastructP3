@@ -9,3 +9,12 @@
 *Spacing will depend on the height of the tree.
 
 The successor is the smallest value in its right subtree.
+
+
+         15		9 spaces
+       /     \		7 + 5 spaces
+      6     20	4 + 5 spaces
+     /\     /		5 + 5 spaces
+   4 10 16 *
+              \		14 spaces
+* * * * * 17

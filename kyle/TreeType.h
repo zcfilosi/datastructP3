@@ -18,7 +18,7 @@ public:
   TreeType(const TreeType& originalTree);
   void operator=(const TreeType& originalTree);
   // copy constructor
-  
+
   void MakeEmpty();
   bool IsEmpty() const;
   bool IsFull() const;
@@ -26,19 +26,19 @@ public:
   ItemType GetItem(ItemType item, bool& found);
   void PutItem(ItemType item);
   void DeleteItem(ItemType item);
-  void ResetTree(OrderType order); 
+  void ResetTree(OrderType order);
   ItemType GetNextItem(OrderType order, bool& finished);
   void Print() const;
-  
+
   void Ancestors(ItemType value);
-  
+
   void PreOrderPrint();
   void InOrderPrint();
   void PostOrderPrint();
   
   void LevelOrderPrint();
   
-  void Print(std::ofstream& os) const;
+  TreeType<ItemType> MirrorImage();
   
 private:
   TreeNode<ItemType> * root;
