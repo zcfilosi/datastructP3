@@ -435,6 +435,28 @@ void TreeType<ItemType>::InOrderPrint() {
 }
 
 template <class ItemType>
+void TreeType<ItemType>::PreOrderPrint() {
+  ResetTree(PRE_ORDER);
+  bool fin = false;
+  ItemType item;
+  while (!fin) {
+    item = GetNextItem(PRE_ORDER, fin);
+    cout << item << " ";
+  }
+}
+
+template <class ItemType>
+void TreeType<ItemType>::PostOrderPrint() {
+  ResetTree(POST_ORDER);
+  bool fin = false;
+  ItemType item;
+  while (!fin) {
+    item = GetNextItem(POST_ORDER, fin);
+    cout << item << " ";
+  }
+}
+
+template <class ItemType>
 void TreeType<ItemType>::LevelOrderPrint() {
   vector<TreeNode<ItemType>*> nodes;
   int maxlen = pow(2, GetLength()) - 1;
@@ -461,22 +483,14 @@ void TreeType<ItemType>::LevelOrderPrint() {
   }
   // Printing
   int lev = -1;
-  vector<char> slashes;
+  //vector<char> slashes;
   for (unsigned int i = 0; i < nodes.size(); i++) {
     if ((i & (i + 1)) == 0) {  // determining new level or not
       cout << endl;
-      /*if (i != 0) {
-        for (unsigned int i = 0; i < slashes.size(); i++) {
-          cout << slashes.at(i);
-        }
-        cout << endl;
-        slashes.clear();
-      }*/
       lev++;
-      //cout << "Level " << to_string(lev) << ":\t";
     }
     if (nodes.at(i) != NULL) {   // printing the nodes
-      cout << nodespace(lev, (int) log2(nodes.size() + 1)) << nodes.at(i)->info << " ";
+      cout << nodes.at(i)->info << " ";
     }
     else
       cout << "  ";
@@ -485,7 +499,6 @@ void TreeType<ItemType>::LevelOrderPrint() {
   cout << endl << endl;
 }
 
-//template <class ItemType>
 string nodespace(int lev, int ht) {
   string spaces = "";
   for (int i = ht; i > lev; i--) {     // gap proportions

@@ -3,7 +3,6 @@ Tree is empty.
 P is inserted
 F is inserted
 S is inserted
-
 B is inserted
 H is inserted
 G is inserted
@@ -19,7 +18,6 @@ G found in list.
 T found in list.
 A not in list.
 N not in list.
-
 Next item is: B
 Next item is: F
 Next item is: G
@@ -32,7 +30,6 @@ Next item is: W
 Next item is: Y
 Next item is: Z
 IN_ORDER traversal is complete.
-
 Next item is: B
 Next item is: G
 Next item is: H
@@ -45,7 +42,6 @@ Next item is: Y
 Next item is: S
 Next item is: P
 POST_ORDER traversal is complete.
-
 Next item is: P
 Next item is: F
 Next item is: B
@@ -58,7 +54,6 @@ Next item is: T
 Next item is: W
 Next item is: Z
 PRE_ORDER traversal is complete.
-
 Number of nodes is 11
 Tree is not empty.
 W is deleted
@@ -75,7 +70,6 @@ Y is deleted
 Tree is empty.
 A is inserted
 B is inserted
-
 Tree has been made empty.
 Tree is empty.
 Tree has been made empty.

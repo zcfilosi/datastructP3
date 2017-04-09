@@ -12,7 +12,7 @@
 using namespace std;
 
 template <class ItemType>
-TreeType<ItemType> MakeTree(ItemType arr[]);
+int MakeTree(TreeType<ItemType>& tree, int a, int z, ItemType arr[]);
 
 int main()
 {
@@ -50,9 +50,9 @@ int main()
   TreeType<int> mtree = MakeTree(ar);
 
   */
-  char item;
+  string item;
   string orderItem;
-  TreeType<int> tree;
+  TreeType<string> tree;
   OrderType order;
   bool found;
   bool finished;
@@ -109,8 +109,9 @@ int main()
   
     else if (command == "PrintTree")
     {
+      cout << endl;
       tree.Print();
-      outFile << endl;
+      cout << endl;
     }  
     else if (command == "ResetTree")
     {
@@ -146,26 +147,29 @@ int main()
       outFile << "Tree has been made empty." << endl;
     }
     else if (command == "MakeTree") {
+      // Same tree or new tree object?
+      tree.MakeEmpty();
       string line, phr;
-      vector<char> vec;
-      int len = 0, temp = 0;
+      vector<string> vec;
+      int len = 0;
+      char * stemp = new char;
       getline(inFile, line);
       stringstream ss(line);
       while (getline(ss, phr, ' ')) { // to get the length
-        sscanf(phr.c_str(), "%d", &temp);
-        item = (char) temp;
+        sscanf(phr.c_str(), "%s", stemp);
+        //cout << sscanf(phr.c_str(), "%c", &ctemp);
+        item = stemp;
         vec.push_back(item);
         len++;
       }
-      int * arr = new int[len];
+      string * arr = new string[len];
       for (unsigned int i = 0; i < vec.size(); i++) {
         arr[i] = vec.at(i);
-        cout << arr[i] << endl;
       }
-      // MakeTree call
+      MakeTree(tree, 0, vec.size() - 1, arr);
     }
     else if (command == "LevelOrderPrint") {
-    
+      tree.LevelOrderPrint();
     }
 	else cout << " Command not recognized." << endl;
     numCommands++;
@@ -181,12 +185,12 @@ int main()
 }
 
 template <class ItemType>
-TreeType<ItemType> MakeTree(ItemType arr[]) {
-  TreeType<ItemType> tree;
-  int len = 0;
-  while (arr[len] != 0) {
-    len++;
-  }
-  cout << len << endl;
-  return tree;
+int MakeTree(TreeType<ItemType>& tree, int a, int z, ItemType arr[]) {
+  if (a > z)
+    return 0;
+  int mid = (a + z)/2;
+  tree.PutItem(arr[mid]);
+  MakeTree(tree, a, mid -1, arr);
+  MakeTree(tree, mid+1, z, arr);
+  return 1;
 }
